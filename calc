@@ -1,0 +1,162 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>The HTML5 Herald</title>
+</head>
+<body>
+    <script>
+        function MyMath(number){
+            this.value = number;
+        }
+        MyMath.prototype.toRoman = function(){
+            let num = parseInt(this.value);
+            if (isNaN(num)){
+                alert('Error: incorrect symbol');
+            }
+            else {
+                this.class = 'Roman';
+                let rNum = '';
+                while (num >= 1000){rNum += 'M'; num -= 1000;}
+                while (num >= 900){rNum += 'CM'; num -= 900}
+                while (num >= 500){rNum += 'D'; num -= 500}
+                while (num >= 400){rNum += 'CD'; num -= 400}
+                while (num >= 100){rNum += 'C'; num -= 100}
+                while (num >= 90){rNum += 'XC'; num -= 90}
+                while (num >= 50){rNum += 'L'; num -= 50}
+                while (num >= 40){rNum += 'XL'; num -= 40}
+                while (num >= 10){rNum += 'X'; num -= 10}
+                while (num >= 9){rNum += 'IX'; num -= 9}
+                while (num >= 5){rNum += 'V'; num -= 5}
+                while (num >= 4){rNum += 'IV'; num -= 4}
+                while (num >= 1){rNum += 'I'; num -= 1}
+                this.value = rNum;
+            }
+            return this;
+        }
+        MyMath.prototype.toArabic = function(){
+            let num = this.value;
+            let aNum = 0;
+            let i = 0;
+            let isError = false;
+            while(i < num.length){
+                switch(num[i]){
+                    case 'M':
+                        aNum += 1000;
+                        break;
+                    case 'C':
+                        switch(num[i + 1]){
+                            case 'D':
+                                aNum += 400;
+                                ++i;
+                                break;
+                            case 'M':
+                                aNum += 900;
+                                ++i;
+                                break;
+                            default:
+                                aNum += 100;
+                                break;
+                        }
+                        break;
+                    case 'D':
+                        aNum += 500;
+                        break;
+                    case 'X':
+                        switch(num[i + 1]){
+                            case 'C':
+                                aNum += 90;
+                                ++i;
+                                break;
+                            case 'L':
+                                aNum += 40;
+                                ++i;
+                                break;    
+                            default:
+                                aNum += 10;
+                                break;                            
+                        }
+                        break;
+                    case 'L':
+                        aNum += 50;
+                        break;
+                    case 'I':
+                        switch(num[i + 1]){
+                            case 'X':
+                                aNum += 9;
+                                ++i;
+                                break;
+                            case 'V':
+                                aNum += 4;
+                                ++i;
+                                break;
+                            default:
+                                aNum += 1;
+                                break;
+                        }
+                        break;
+                    case 'V':
+                        aNum += 5;
+                        break;
+                    default:
+                        isError = true;
+                }
+                ++i;
+            }
+            if (isError){
+                alert('Error: incorrect symbol');
+            }
+            else {
+                this.class = 'Arabic';
+                this.value = aNum;
+            }
+            return this;
+        }
+        MyMath.prototype.append = function(number){
+            let num1 = this.value;
+            if (isNaN(this.value)){
+                num1 = this.toArabic().value;
+            }
+            let num2 = number.value;
+            if (isNaN(number.value)){
+                num2 = number.toArabic().value;
+            }
+            return parseInt(num1) + parseInt(num2);
+        }
+        MyMath.prototype.substract = function(number){
+            let num1 = this.value;
+            if (isNaN(this.value)){
+                num1 = this.toArabic().value;
+            }
+            let num2 = number.value;
+            if (isNaN(number.value)){
+                num2 = number.toArabic().value;
+            }
+            return parseInt(num1) - parseInt(num2);
+        }
+        MyMath.prototype.divide = function(number){
+            let num1 = this.value;
+            if (isNaN(this.value)){
+                num1 = this.toArabic().value;
+            }
+            let num2 = number.value;
+            if (isNaN(number.value)){
+                num2 = number.toArabic().value;
+            }
+            return parseInt(num1) / parseInt(num2);
+        }
+        MyMath.prototype.multiply = function(number){
+            let num1 = this.value;
+            if (isNaN(this.value)){
+                num1 = this.toArabic().value;
+            }
+            let num2 = number.value;
+            if (isNaN(number.value)){
+                num2 = number.toArabic().value;
+            }
+            return parseInt(num1) * parseInt(num2);
+        }
+    </script>
+</body>
+</html>
